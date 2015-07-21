@@ -1,0 +1,11 @@
+setup.cfg
+nextgisweb_mobile_debug/__init__.py
+nextgisweb_mobile_debug/model.py
+nextgisweb_mobile_debug/view.py
+nextgisweb_mobile_debug.egg-info/PKG-INFO
+nextgisweb_mobile_debug.egg-info/SOURCES.txt
+nextgisweb_mobile_debug.egg-info/dependency_links.txt
+nextgisweb_mobile_debug.egg-info/entry_points.txt
+nextgisweb_mobile_debug.egg-info/not-zip-safe
+nextgisweb_mobile_debug.egg-info/requires.txt
+nextgisweb_mobile_debug.egg-info/top_level.txt
