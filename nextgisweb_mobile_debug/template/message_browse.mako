@@ -3,14 +3,13 @@
 <table class="pure-table pure-table-horizontal" style="width: 100%;">
     <thead>
         <tr>
-            <th style="width: 2em;">ID</th>
-            <th style="width: 50%;">creation_dt</th>
-            <th style="width: 50%">device_uuid</th>
-            <th style="width: 50%">device_dt</th>
-            <th style="width: 50%">server_url</th>
-            <th style="width: 50%">login</th>
-            <th style="width: 50%">message_type</th>
-
+            <th style="width: 4em;">ID</th>
+            <th style="width: 20em;">Creation DT</th>
+            <th style="width: 20em">Device UUID</th>
+            <th style="width: 20em;">Device DT</th>
+            <th style="width: 80em;">Server URL</th>
+            <th style="width: 20em;">Login</th>
+            <th style="width: 20em;">Message type</th>
             <th style="width: 0px;">&nbsp;</th>
         </tr>
     </thead>
