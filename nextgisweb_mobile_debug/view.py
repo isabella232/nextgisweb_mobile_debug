@@ -89,7 +89,7 @@ def download_message_attach(request):
     obj = MobileMessage.filter_by(id=request.matchdict['id']).one()
     if obj.fileobj:
         fn = env.file_storage.filename(obj.fileobj)
-        return FileResponse(fn, content_type=bytes(obj.mime_type), request=request)
+        return FileResponse(fn, content_type=bytes('application/zip'), request=request)
     else:
         raise NotFound('Message has no attachment!')
 

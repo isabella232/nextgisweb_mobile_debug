@@ -1,6 +1,6 @@
 <%inherit file='nextgisweb:templates/base.mako' />
 
-<table width="100%" class="tableContainer-table tableContainer-table-horiz" cellspacing="1">
+<table width="100%" class="pure-table pure-table-horizontal" cellspacing="1">
     <tr>
         <td class="tableContainer-labelCell" style="width: 150px;">
             <label>ID</label>
@@ -65,8 +65,8 @@
         <td class="tableContainer-labelCell" style="width: 150px;">
             <label>Log cat</label>
         </td>
-        <td class="tableContainer-valueCell" style="height: 40em; width: 100%">
-            <textarea dojoType="dijit.form.TextArea">${obj.logcat}</textarea>
+        <td class="tableContainer-valueCell" >
+            <textarea dojoType="dijitTextArea" style="height: 40em; width: 100%">${obj.logcat}</textarea>
         </td>
     </tr>
 </table>
