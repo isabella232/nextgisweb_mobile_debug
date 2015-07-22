@@ -51,11 +51,21 @@
             <div class="dijit dijitReset dijitInline dijitLeft dijitTextBox dijitValidationTextBox">${obj.login}</div>
         </td>
     </tr>
+
+    <tr>
+        <td class="tableContainer-labelCell" style="width: 150px;">
+            <label>Attachment</label>
+        </td>
+        <td class="tableContainer-valueCell">
+            <a href="${request.route_url('mobile_debug.message.attachment', id=obj.id)}">Download</a>
+        </td>
+    </tr>
+
      <tr>
         <td class="tableContainer-labelCell" style="width: 150px;">
             <label>Log cat</label>
         </td>
-        <td class="tableContainer-valueCell">
+        <td class="tableContainer-valueCell" style="height: 40em; width: 100%">
             <textarea dojoType="dijit.form.TextArea">${obj.logcat}</textarea>
         </td>
     </tr>

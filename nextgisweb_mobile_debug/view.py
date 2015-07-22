@@ -2,19 +2,34 @@
 from __future__ import unicode_literals
 from datetime import datetime
 import json
-import pprint
+from shutil import copyfileobj
+from pyramid.exceptions import NotFound
 from pyramid.httpexceptions import HTTPForbidden, HTTPMethodNotAllowed, HTTPBadRequest
-from pyramid.response import Response
+from pyramid.response import Response, FileResponse
 from pyramid.view import view_config
 from sqlalchemy import desc
 
 from .model import MobileMessage
 from nextgisweb import dynmenu as dm
+from nextgisweb.env import env
 
 
 def check_permission(request):
     if not request.user.is_administrator:
         raise HTTPForbidden("Membership in group 'administrators' required!")
+
+
+def attach_file_to_message(data, message):
+    file_upload = data.get('file_upload')
+    if file_upload is not None:
+        message.fileobj = env.file_storage.fileobj(
+            component='mobile_debug')
+
+        srcfile, _ = env.file_upload.get_filename(file_upload['id'])
+        dstfile = env.file_storage.filename(message.fileobj, makedirs=True)
+
+        with open(srcfile, 'r') as fs, open(dstfile, 'w') as fd:
+            copyfileobj(fs, fd)
 
 
 @view_config(renderer='json')
@@ -48,7 +63,7 @@ def append_message(request):
     except:
         mmessage.logcat = str(params['logcat'])
 
-
+    attach_file_to_message(params, mmessage)
     mmessage.persist()
 
     return Response('')
@@ -70,6 +85,15 @@ def message_info(request):
         dynmenu=request.env.pyramid.control_panel)
 
 
+def download_message_attach(request):
+    obj = MobileMessage.filter_by(id=request.matchdict['id']).one()
+    if obj.fileobj:
+        fn = env.file_storage.filename(obj.fileobj)
+        return FileResponse(fn, content_type=bytes(obj.mime_type), request=request)
+    else:
+        raise NotFound('Message has no attachment!')
+
+
 def setup_pyramid(comp, config):
 
     config.add_route(
@@ -81,6 +105,11 @@ def setup_pyramid(comp, config):
         'mobile_debug.message.info',
         '/mobile_debug/message/{id:\d+}', client=('id', )) \
         .add_view(message_info, renderer='nextgisweb_mobile_debug:/template/message_info.mako')
+
+    config.add_route(
+        'mobile_debug.message.attachment',
+        '/mobile_debug/message/{id:\d+}/attachment', client=('id', )) \
+        .add_view(download_message_attach)
 
     config.add_route(
         'mobile_debug.message.append',

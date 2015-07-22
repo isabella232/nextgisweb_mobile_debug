@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from datetime import datetime
+from nextgisweb.file_storage import FileObj
 
 from nextgisweb.models import declarative_base
 from nextgisweb import db
@@ -20,3 +21,8 @@ class MobileMessage(Base):
     server_url = db.Column(db.Text)
     login = db.Column(db.Text)
     logcat = db.Column(db.Text)
+
+    fileobj_id = db.Column(db.ForeignKey(FileObj.id), nullable=True)
+    fileobj = db.relationship(FileObj)
+
+
