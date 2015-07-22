@@ -1,6 +1,8 @@
 # -*- coding: utf-8 -*-
 from __future__ import unicode_literals
 from datetime import datetime
+import json
+import pprint
 from pyramid.httpexceptions import HTTPForbidden, HTTPMethodNotAllowed, HTTPBadRequest
 from pyramid.response import Response
 from pyramid.view import view_config
@@ -39,8 +41,13 @@ def append_message(request):
     mmessage.device_dt = datetime.utcfromtimestamp(params['date'])
     mmessage.server_url = params['server_url']
     mmessage.login = params['login']
-    mmessage.logcat = params['logcat']
     mmessage.message_type = params['message_type']
+
+    try:
+        mmessage.logcat = json.dumps(params['logcat'], indent=4)
+    except:
+        mmessage.logcat = str(params['logcat'])
+
 
     mmessage.persist()
 
