@@ -13,6 +13,7 @@ from .model import MobileMessage
 from nextgisweb import dynmenu as dm
 from nextgisweb.env import env
 
+PAGE_SIZE = 10000
 
 def check_permission(request):
     if not request.user.is_administrator:
@@ -71,9 +72,15 @@ def append_message(request):
 
 def messages_browse(request):
     check_permission(request)
+    try:
+        page = int(request.matchdict['page'])
+    except:
+        page = 0
+
     return dict(
         title=u"Сообщения с мобильных устройств",
-        obj_list=MobileMessage.query().order_by(desc(MobileMessage.id)),
+        obj_list=MobileMessage.query().order_by(desc(MobileMessage.id)).limit(PAGE_SIZE).offset(PAGE_SIZE*page),
+        total_pages=MobileMessage.query().count()/PAGE_SIZE,
         dynmenu=request.env.pyramid.control_panel)
 
 
@@ -121,7 +128,7 @@ def setup_pyramid(comp, config):
         def build(self, kwargs):
             yield dm.Link(
                 self.sub('browse'), u"Список",
-                lambda kwargs: kwargs.request.route_url('mobile_debug.message.browse')
+                lambda kwargs: kwargs.request.route_url('mobile_debug.message.browse', page=0)
             )
 
     MobileDebugMenu.__dynmenu__ = comp.env.pyramid.control_panel

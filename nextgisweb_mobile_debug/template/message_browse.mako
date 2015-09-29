@@ -1,5 +1,15 @@
 <%inherit file='nextgisweb:templates/base.mako' />
 
+<div>
+    <b>Pages: </b>
+        %for page in xrange(total_pages+1):
+            %if page<=30:
+                <a href="${request.route_url('mobile_debug.message.browse', page=page)}">${page}</a>
+            %endif
+        %endfor
+</div>
+<br/>
+
 <table class="pure-table pure-table-horizontal" style="width: 100%;">
     <thead>
         <tr>
