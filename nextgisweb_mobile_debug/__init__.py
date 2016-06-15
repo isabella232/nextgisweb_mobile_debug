@@ -5,7 +5,6 @@ from nextgisweb.component import Component
 from .model import Base
 
 
-@Component.registry.register
 class MobileDebugComponent(Component):
     identity = 'mobile_debug'
     metadata = Base.metadata
